@@ -3,7 +3,9 @@
 /**/   // CommonJS
 /**/   if (typeof module === 'object' && !!module.exports) return scope(function(name, dependencies, factory) {
 /**/     if(factory === void 0) factory = dependencies, dependencies = [];
-/**/     module.exports = factory.apply(module.exports, dependencies.map(require)) || module.exports;
+/**/     var args = [];
+/**/     for(var i = 0; i < dependencies.length; i++) args[i] = require(dependencies[i]);
+/**/     module.exports = factory.apply(module.exports, args) || module.exports;
 /**/   });
 /**/ 
 /**/   // AMD, wrap a 'String' to avoid warn of fucking webpack
@@ -11,11 +13,14 @@
 /**/ 
 /**/   // Global
 /**/   scope(function(name, dependencies, factory) {
+/**/     if(factory === void 0) factory = dependencies, dependencies = [];
 /**/     /**/ try { /* Fuck IE8- */
 /**/     /**/   if(typeof execScript === 'object') execScript('var ' + name);
 /**/     /**/ } catch(error) {}
 /**/     window[name] = {}; 
-/**/     window[name] = factory.apply(window[name], dependencies.map(require)) || window[name];
+/**/     var args = [];
+/**/     for(var i = 0; i < dependencies.length; i++) args[i] = window[dependencies[i]];
+/**/     window[name] = factory.apply(window[name], deps) || window[name];
 /**/   });
 /**/ 
 /**/ }(function(define) {
