@@ -1,0 +1,32 @@
+{
+  "name": "amd2umd",
+  "version": "0.0.1",
+  "description": "Convert AMD to UMD",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "cd tests && ./test.sh"
+  },
+  "bin": {
+    "amd2umd": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/YanagiEiichi/amd2umd.git"
+  },
+  "keywords": [
+    "umd"
+  ],
+  "author": "YanagiEiichi <admin@web-tinker.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/YanagiEiichi/amd2umd/issues"
+  },
+  "homepage": "https://github.com/YanagiEiichi/amd2umd#readme",
+  "dependencies": {
+    "argollector": "^1.0.0",
+    "babel-fs": "^1.0.5"
+  }
+}
