@@ -1,6 +1,6 @@
 {
   "name": "amd2umd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Convert AMD to UMD",
   "main": "index.js",
   "directories": {
