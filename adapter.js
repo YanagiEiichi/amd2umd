@@ -20,7 +20,7 @@
 /**/     window[name] = {}; 
 /**/     var args = [];
 /**/     for(var i = 0; i < dependencies.length; i++) args[i] = window[dependencies[i]];
-/**/     window[name] = factory.apply(window[name], deps) || window[name];
+/**/     window[name] = factory.apply(window[name], args) || window[name];
 /**/   });
 /**/ 
 /**/ }(function(define) {
