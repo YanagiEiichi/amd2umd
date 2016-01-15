@@ -3,8 +3,8 @@
 /**/   // CommonJS
 /**/   if (typeof module === 'object' && !!module.exports) return scope(function(name, dependencies, factory) {
 /**/     if(factory === void 0) factory = dependencies, dependencies = [];
-/**/     var args = [];
-/**/     for(var i = 0; i < dependencies.length; i++) args[i] = require(dependencies[i]);
+/**/     var args;
+/**/     <!-- dependencies -->
 /**/     module.exports = factory.apply(module.exports, args) || module.exports;
 /**/   });
 /**/ 
@@ -25,6 +25,6 @@
 /**/ 
 /**/ }(function(define) {
 
-<!-- CODE -->
+<!-- source -->
 
 /**/ });

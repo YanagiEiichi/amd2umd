@@ -2,7 +2,6 @@
 
 'use strict';
 
-const Capacitance = require('capacitance');
 const argollector = require('argollector');
 const bfs = require('babel-fs');
 const path = require('path');
@@ -24,7 +23,7 @@ switch(true) {
   default:
     amd2umd(argollector[0]).then(function(result) {
       process.stdout.write(result);
-    });
+    }).catch(console.error);
 };
 
 function amd2umd(amdfile) {
@@ -32,6 +31,31 @@ function amd2umd(amdfile) {
     bfs.readFile(path.join(__dirname, 'adapter.js')).then(String),
     bfs.readFile(amdfile).then(String),
   ]).then(function(results) {
-    return results[0].replace(/<!--\s*CODE\s*-->/, results[1].replace(/^[\r\n]*|[\r\n]*$/g, ''));
+    var template = results[0];
+    var source = results[1].replace(/^[\r\n]*|[\r\n]*$/g, '');
+    var dependencies;
+    try {
+      Function('define', source)(function(name, deps, factory) {
+        dependencies = deps instanceof Array ? deps : [];
+      });
+      if(!(dependencies instanceof Array)) throw 0;
+    } catch(e) {
+      throw new Error('Resolve dependencies failed');
+    }
+    var $scope = {
+      source: source,
+      dependencies: 'args = [ ' + dependencies.map(function(name) {
+        return 'require(\'' + name + '\')';
+      }).join(', ') + ' ];'
+    };
+    return template.replace(/<!--\s*(.*?)\s*-->/g, function($0, $1) {
+      var keys = Object.keys($scope);
+      var values = Object.keys($scope).map(function(name) { return $scope[name]; });
+      try {
+        return new Function(keys, 'return (' + $1 + ')').apply($scope, values);
+      } catch(e) {
+        return new Function(keys, $1).apply($scope, values);
+      }
+    });
   });
 }
