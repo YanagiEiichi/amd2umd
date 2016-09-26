@@ -36,6 +36,8 @@ function amd2umd(amdfile) {
     var dependencies;
     try {
       Function('define', source)(function(name, deps, factory) {
+        if(typeof name !== 'string') factory = deps, deps = name, name = null;
+        if(!(deps instanceof Array)) factory = deps, deps = [];
         dependencies = deps instanceof Array ? deps : [];
       });
       if(!(dependencies instanceof Array)) throw 0;
