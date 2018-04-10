@@ -13,18 +13,22 @@
 /**/   if (String(typeof define) === 'function' && !!define.amd) return scope(define);
 /**/
 /**/   // Global
+/**/   var globalName;
+/**/   <!-- globalName -->
 /**/   scope(function(name, dependencies, factory) {
 /**/     if (typeof name !== 'string') factory = dependencies, dependencies = name, name = null;
 /**/     if (!(dependencies instanceof Array)) factory = dependencies, dependencies = [];
 /**/     var exports = {};
 /**/     var args = [];
-/**/     for (var i = 0; i < dependencies.length; i++) args[i] = window[dependencies[i]];
+/**/     var global = new Function('return this')();
+/**/     for (var i = 0; i < dependencies.length; i++) args[i] = global[dependencies[i]];
 /**/     exports = factory.apply(exports, args) || exports;
+/**/     if (!name) name = globalName;
 /**/     if (name) {
 /**/       /**/ try { /* Fuck IE8- */
 /**/       /**/   if (typeof execScript === 'object') execScript('var ' + name);
 /**/       /**/ } catch(error) {}
-/**/       window[name] = exports;
+/**/       global[name] = exports;
 /**/     }
 /**/   });
 /**/

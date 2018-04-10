@@ -19,6 +19,7 @@ switch(true) {
     console.log('Options:');
     console.log('  -v, --version          show version');
     console.log('  -h, --help             show help message');
+    console.log('  -n, --name             global name');
     break;
   default:
     amd2umd(argollector[0]).then(function(result) {
@@ -42,9 +43,10 @@ function amd2umd(amdfile) {
       });
       if(!(dependencies instanceof Array)) throw 0;
     } catch(e) {
-      throw new Error('Resolve dependencies failed');
+      throw new Error('Resolve dependencies failed: ' + e.message);
     }
     var $scope = {
+      globalName: 'globalName = ' + JSON.stringify(argollector['-n'] || argollector['--name']) + ';',
       source: source,
       dependencies: 'args = [ ' + dependencies.map(function(name) {
         return 'require(\'' + name + '\')';
